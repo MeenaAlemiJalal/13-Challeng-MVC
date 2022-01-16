@@ -1,0 +1,17 @@
+<div class="body-section">
+  {{#each posts}}
+    <div class="post-container">
+      <a href="/posts/{{this.id}}" class="post-container-header">
+        <div class="post-title">
+          {{this.title}}
+        </div>
+        <div class="post-owner-date">
+          Posted by {{this.user.username}} on {{this.createdAt}}
+        </div>
+      </a>
+      <div class="post-container-body">
+        {{this.text}}
+      </div>
+    </div>
+  {{/each}}
+</div>

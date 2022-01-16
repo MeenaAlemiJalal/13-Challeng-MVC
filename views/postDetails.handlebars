@@ -1,0 +1,26 @@
+<div class="body-section">
+    <div class="post-container">
+      <div class="post-container-header">
+        <div class="post-title">
+          {{post.title}}
+        </div>
+        <div class="post-owner-date">
+          Posted by {{post.user.username}} on {{post.createdAt}}
+        </div>
+      </div>
+      <div class="post-container-body">
+        {{post.text}}
+      </div>
+    </div>
+      <div class="post-container">
+        <div class="post-container-header"></div>
+          {{#each post.comments}}
+            <div class="post-container-body">
+              <div>{{this.text}}</div>
+              <div class="post-owner-date">- on {{this.createdAt}}</div>
+            </div>
+          {{else}}
+            <div class="post-container-body">not comments yet</div>
+          {{/each}}
+      </div>
+</div>

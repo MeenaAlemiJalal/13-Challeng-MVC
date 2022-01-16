@@ -1,0 +1,85 @@
+
+
+*{
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+  text-decoration: none; 
+}
+
+a {
+  color: white;
+}
+
+.main-container{
+  height: 100vh;
+}
+
+.header-w {
+  background-color: darkred;
+  color: white;
+  padding: 20px 55px;
+}
+
+.header-w ul {
+  list-style: none;
+  display: flex;
+  margin-bottom: 20px;
+}
+
+.header-w  li{
+  margin-right: 40px;
+  font-size: 20px;
+  letter-spacing: 1.5px;
+  cursor: pointer;
+}
+
+.header-w h1 {
+  padding: 5px 8px;
+  background-color: white;
+  color: darkred;
+  width: 280px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 40px;
+  border-radius:10px;
+  box-shadow: 8px 8px rgb(209, 200, 184);
+}
+
+.body-section {
+  padding: 25px 55px;
+}
+
+.post-container {
+  border: 4px solid darkred;
+  margin-bottom: 20px;
+}
+
+.post-container-header{
+  padding: 10px 20px;
+  background-color: darkred;
+  color: white;
+  font-size: 25px;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 40px;
+}
+
+.post-title {
+  display: flex;
+  align-items: center;
+}
+
+.post-owner-date {
+  font-size: 14px;
+}
+
+.post-container-body{
+  padding: 15px 20px;
+  height: 85px;
+  font-size: 20px;
+}
