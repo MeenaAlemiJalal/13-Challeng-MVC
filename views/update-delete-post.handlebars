@@ -1,8 +1,8 @@
 <div class="body-section">
   <div class="form-title">Edit Post</div>
-    <form action="/posts/{{post.id}}" class="auth-form" method="PUT">
-      <input type="text" name="title" value="{{post.title}}" required={true}>
+    <form action="/posts/edit/{{post.id}}" class="auth-form" method="post">
+      <input type="text" name="title" required={true} value="{{post.title}}">
       <textarea name="text" required={true} maxlength="2000" rows="8">{{post.text}}</textarea>
-      <button type="submit">Update Post</button>
+      <button>Update Post</button>
     </form>
 </div>

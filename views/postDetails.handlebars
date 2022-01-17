@@ -26,9 +26,11 @@
           {{else}}
             <div class="post-container-body">No comments yet, add a comment now</div>
           {{/each}}
+          {{#if userId}}
           <form action="/posts/{{post.id}}" class="form-add-comment" method="post">
             <input type="text" class="add-comment" placeholder="Add a comment" name="text" required>
             <button type="submit">Submit!</button>
           </form>
+          {{/if}}
       </div>
 </div>

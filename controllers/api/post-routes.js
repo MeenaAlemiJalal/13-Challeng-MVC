@@ -96,9 +96,8 @@ router.get('/edit/:id', authenticate, async (req, res) => {
   }
 });
 
-// update one post                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                
-router.put('/:id', authenticate, async (req, res) => {
-  console.log('INSIDE PUT', req.body)
+// this updates one post, using post instead of put as put does not work in forms                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                
+router.post('/edit/:id', authenticate, async (req, res) => {
   try{
     await Post.update(req.body,
       { 
@@ -136,7 +135,7 @@ router.post('/:id', authenticate, async (req, res) => {
       owner: req.session.userId,
       related_post: req.params.id
     })
-    res.status(200).redirect(`/posts/${req.params.id}`)
+    res.status(200).redirect(`/posts/details/${req.params.id}`)
   }catch(err){
     res.status(500).json(err.message)
   }
