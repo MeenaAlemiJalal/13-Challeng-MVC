@@ -1,7 +1,10 @@
 <div class="body-section">
+  <div class="create-post">
+    <a href="/posts/create" class="create-post-btn">+ New Post</a>
+  </div>
   {{#each posts}}
     <div class="post-container">
-      <a href="/posts/{{this.id}}" class="post-container-header">
+      <a href="/posts/edit/{{this.id}}" class="post-container-header">
         <div class="post-title">
           {{this.title}}
         </div>
@@ -13,5 +16,7 @@
         {{this.text}}
       </div>
     </div>
+    {{else}}
+    <div class="post-container-body">No posts yet, add a post now</div>
   {{/each}}
 </div>

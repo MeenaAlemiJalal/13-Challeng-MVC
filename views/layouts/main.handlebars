@@ -1,7 +1,6 @@
 <head>
   <meta charset="UTF-8">
-  <title>Potluck Party</title>
-  <link rel="stylesheet" href="/css/jass.css">
+  <title>The Tech Blog</title>
   <link rel="stylesheet" href="/css/style.css">
 </head>
 <body>
@@ -10,7 +9,9 @@
       <ul>
         <a href="/posts"><li>Home</li></a>
         <a href="/posts/dashboard"><li>Dashboard</li></a>
-        <a href="/users/login"><li>Login</li></a>
+        <a href={{#if userId}} "/users/logout" {{^}} "/users/login" {{/if}}>
+          <li>{{#if userId}} Logout {{^}} Login {{/if}}</li>
+        </a>
       </ul>
       <h1>The Tech Blog</h1>
     </header>

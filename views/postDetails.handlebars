@@ -13,14 +13,22 @@
       </div>
     </div>
       <div class="post-container">
-        <div class="post-container-header"></div>
+        <div class="post-container-header">
+          <div class="post-title">
+            Post Comments
+          </div>
+        </div>
           {{#each post.comments}}
             <div class="post-container-body">
               <div>{{this.text}}</div>
               <div class="post-owner-date">- on {{this.createdAt}}</div>
             </div>
           {{else}}
-            <div class="post-container-body">not comments yet</div>
+            <div class="post-container-body">No comments yet, add a comment now</div>
           {{/each}}
+          <form action="/posts/{{post.id}}" class="form-add-comment" method="post">
+            <input type="text" class="add-comment" placeholder="Add a comment" name="text" required>
+            <button type="submit">Submit!</button>
+          </form>
       </div>
 </div>

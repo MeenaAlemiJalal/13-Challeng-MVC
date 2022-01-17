@@ -1,8 +1,8 @@
 const router = require('express').Router();
-const { raw } = require('body-parser');
+const authenticate = require('./authentication')
 const { Post, User, PostComment } = require('../../models');
 
-// Fro the `/blogs` route
+// For the `/posts` route
 
 // get all posts
 router.get('/', async (req, res) => {
@@ -12,7 +12,7 @@ router.get('/', async (req, res) => {
       raw: true,
       nest: true
     })
-    res.status(200).render('home', {posts: posts})
+    res.status(200).render('home', {posts: posts, userId: req.session.userId})
   }catch(err){
     res.status(500).json(err.message)
   }
@@ -20,23 +20,27 @@ router.get('/', async (req, res) => {
 
 // get all posts for a user
 router.get('/dashboard', async (req, res) => {
-  try{
-    const posts = await Post.findAll({
-      where: {
-        owner: 1
-      },
-      include:[{ model: User, attributes:['id', 'username'] }],
-      raw: true,
-      nest: true
-    })
-    res.status(200).render('dashboard', {posts: posts})
-  }catch(error){
-    res.status(500).json(error)
+  if(!req.session.user) {
+    res.redirect('/users/login')
+  } else {
+    try{
+      const posts = await Post.findAll({
+        where: {
+          owner: req.session.userId
+        },
+        include:[{ model: User, attributes:['id', 'username'] }],
+        raw: true,
+        nest: true
+      })
+      res.status(200).render('dashboard', {posts: posts, userId: req.session.userId})
+    }catch(error){
+      res.status(500).json(error)
+    }
   }
 });
 
 // get one post by id with its comments
-router.get('/:id', async (req, res) => {
+router.get('/details/:id', async (req, res) => {
   try{
     const post = await Post.findOne({
       where: {
@@ -47,43 +51,69 @@ router.get('/:id', async (req, res) => {
         {model: PostComment, as: 'comments'}
       ],
     })
-    res.status(200).render('postDetails', {post: post.toJSON()})
+    res.status(200).render('postDetails', {post: post.toJSON(), userId: req.session.userId})
   }catch(error){
     res.status(500).json(error.message)
   }
 });
 
-// create one post
-router.post('/', async (req, res) => {
+// create one post's view 
+router.get('/create', authenticate, async (req, res) => {
   try{
-    const post = await Post.create({
+    res.status(200).render('create-post', {userId: req.session.userId})
+  }catch(err){
+    res.status(500).json(err.message)
+  }
+});
+
+// create one post
+router.post('/', authenticate, async (req, res) => {
+  try{
+    await Post.create({
       title: req.body.title,
       text: req.body.text,
-      owner: 1
+      owner: req.session.userId
     })
-    res.status(200).json(post)
+    res.status(200).redirect('/posts')
+  }catch(err){
+    res.status(500).json(err.message)
+  }
+});
+
+
+// edit post 
+router.get('/edit/:id', authenticate, async (req, res) => {
+  try{
+    const post = await Post.findOne({
+      where: {
+        id: req.params.id
+      }
+    })
+    console.log()
+    res.status(200).render('update-delete-post', {post: post.toJSON(), userId: req.session.userId})
   }catch(err){
     res.status(500).json(err.message)
   }
 });
 
 // update one post                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                
-router.put('/:id', async (req, res) => {
+router.put('/:id', authenticate, async (req, res) => {
+  console.log('INSIDE PUT', req.body)
   try{
-    const post = await Post.update(req.body,
+    await Post.update(req.body,
       { 
       where:{
         id: req.params.id
       }
     })
-    res.status(200).json(post)
+    res.status(200).redirect('/posts/dashboard')
   }catch(err){
     res.status(500).json(err.message)
   }
 });
 
 // delete one post
-router.delete('/:id', async (req, res) => {
+router.delete('/:id', authenticate, async (req, res) => {
   try{
     const post = await Post.destroy({
       where:{
@@ -99,14 +129,14 @@ router.delete('/:id', async (req, res) => {
 
 
 // create one comment to a post
-router.post('/:id', async (req, res) => {
+router.post('/:id', authenticate, async (req, res) => {
   try{
-    const post = await PostComment.create({
+    await PostComment.create({
       text: req.body.text,
-      owner: 1,
-      related_post: 2
+      owner: req.session.userId,
+      related_post: req.params.id
     })
-    res.status(200).json(post)
+    res.status(200).redirect(`/posts/${req.params.id}`)
   }catch(err){
     res.status(500).json(err.message)
   }

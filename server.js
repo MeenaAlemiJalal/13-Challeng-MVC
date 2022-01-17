@@ -1,9 +1,10 @@
 const express = require('express');
 const exphbs = require('express-handlebars');
 const path = require('path');
+const session = require('express-session');
+const FileStore = require('session-file-store')(session);
 const routes = require('./controllers');
-const sequelize = require('./config/dBconnect');
-
+const  sequelize = require('./config/dBconnect');
 
 const hbs = exphbs.create({});
 
@@ -18,7 +19,17 @@ app.use(express.urlencoded({ extended: true }));
 app.engine('handlebars', hbs.engine);
 app.set('view engine', 'handlebars');
 
+
+
 app.use(express.static(path.join(__dirname, 'public')));
+
+app.use(session({
+  name: 'session-id',
+  secret:  process.env.SESSION_SECRET, 
+  saveUninitialized: false,
+  resave: false,
+  store: new FileStore()
+}));
 
 // turn on routes
 app.use(routes);
