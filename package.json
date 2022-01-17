@@ -1,6 +1,10 @@
 {
   "name": "blogs-cms",
   "version": "1.0.0",
+  "engines":{
+    "node": "16.13.0",
+    "npm": "8.1.0"
+  },
   "description": "This is a blog content management system built with node, express, sql, and handlebars",
   "main": "server.js",
   "scripts": {
