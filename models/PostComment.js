@@ -1,5 +1,5 @@
 const { Model, DataTypes } = require('sequelize');
-const sequelize = require('../config/dbConnect');
+const sequelize = require('../config/connection');
 
 class PostComment extends Model {}
 
